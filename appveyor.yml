@@ -16,7 +16,7 @@ dotnet_csproj:
   informational_version: '{version}'
 
 build:
-  project: src/WcfCoreMtomEncoder/WcfCoreMtomEncoder.sln
+  project: src/WcfCoreMtomEncoder.sln
   verbosity: minimal
   
 artifacts:
