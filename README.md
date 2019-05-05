@@ -8,7 +8,7 @@ The `MtomMessageEncoderBindingElement` allows .NET Core applications to communic
 
 ## Usage
 
-To `MtomMessageEncoderBindingElement` is meant to wrap another message encoder, usually `TextMessageEncodingBindingElement`.
+The `MtomMessageEncoderBindingElement` is meant to wrap another message encoder, usually `TextMessageEncodingBindingElement`.
 
 ### Creating a custom binding
 
