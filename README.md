@@ -12,8 +12,6 @@ To `MtomMessageEncoderBindingElement` is meant to wrap another message encoder, 
 
 ### Creating a custom binding
 
-Create a custom binding
-
 ```csharp
 var encoding = new MtomMessageEncoderBindingElement(new TextMessageEncodingBindingElement());
 var transport = new HttpTransportBindingElement();
