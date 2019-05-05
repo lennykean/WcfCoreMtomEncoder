@@ -15,6 +15,9 @@ dotnet_csproj:
   file_version: '{version}'
   informational_version: '{version}'
 
+before_build:
+- dotnet restore src
+
 build:
   project: src/WcfCoreMtomEncoder.sln
   verbosity: minimal
