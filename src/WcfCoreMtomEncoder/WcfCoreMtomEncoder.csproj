@@ -3,6 +3,12 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <LangVersion>7.1</LangVersion>
+    <Description>MTOM message encoder for .NET Core WCF</Description>
+    <Authors>Lenny Kean</Authors>
+    <RepositoryUrl>https://github.com/lennykean/WcfCoreMtomEncoder</RepositoryUrl>
+    <Product>WcfCoreMtomEncoder</Product>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <IncludeSymbols>True</IncludeSymbols>
   </PropertyGroup>
 
   <ItemGroup>
