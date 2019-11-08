@@ -5,6 +5,7 @@
     <LangVersion>7.1</LangVersion>
     <Description>MTOM message encoder for .NET Core WCF</Description>
     <Authors>Lenny Kean</Authors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/lennykean/WcfCoreMtomEncoder</RepositoryUrl>
     <Product>WcfCoreMtomEncoder</Product>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
