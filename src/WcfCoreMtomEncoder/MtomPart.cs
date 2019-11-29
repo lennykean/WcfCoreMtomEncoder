@@ -18,7 +18,20 @@ namespace WcfCoreMtomEncoder
             _part = part;
         }
 
-        public MediaTypeHeaderValue ContentType => _part.Headers.ContentType;
+        public MediaTypeHeaderValue ContentType
+        {
+            get
+            {
+                string contentTypeHeaderValue = _part.Headers.GetValues("Content-Type").FirstOrDefault();
+
+                MediaTypeHeaderValue parsedValue;
+                if (!String.IsNullOrEmpty(contentTypeHeaderValue) && MediaTypeHeaderValue.TryParse(contentTypeHeaderValue.TrimEnd(';'), out parsedValue))
+                    return parsedValue;
+
+                return _part.Headers.ContentType;
+            }
+        }
+
         public string ContentTransferEncoding => _part.Headers.TryGetValues("Content-Transfer-Encoding", out var values) ? values.Single() : null;
         public string ContentId => _part.Headers.TryGetValues("Content-ID", out var values) ? values.Single() : null;
 
@@ -32,7 +45,8 @@ namespace WcfCoreMtomEncoder
 
         public string GetStringContentForEncoder(MessageEncoder encoder)
         {
-            if (!ContentType.Parameters.Any(p => p.Name == "type" && encoder.IsContentTypeSupported(p.Value.Replace("\"", ""))))
+            if (ContentType == null || 
+                !ContentType.Parameters.Any(p => p.Name == "type" && encoder.IsContentTypeSupported(p.Value.Replace("\"", ""))))
                 throw new NotSupportedException();
 
             var encoding = ContentType.CharSet != null ? Encoding.GetEncoding(ContentType.CharSet) : Encoding.Default;
