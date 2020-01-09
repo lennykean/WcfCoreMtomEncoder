@@ -37,19 +37,29 @@ namespace WcfCoreMtomEncoder
         
         public override Message ReadMessage(Stream stream, int maxSizeOfHeaders, string contentType)
         {
-            var parts = (
+            if (_innerEncoder.IsContentTypeSupported(contentType))
+            {
+                var memStream = new MemoryStream(); // We need an non disposed stream
+                stream.CopyTo(memStream);
+                memStream.Seek(0, SeekOrigin.Begin);
+                return _innerEncoder.ReadMessage(memStream, maxSizeOfHeaders, contentType);
+            }
+            else
+            {
+                var parts = (
                 from p in GetMultipartContent(stream, contentType)
                 select new MtomPart(p)).ToList();
 
-            var mainPart = (
-                from part in parts
-                where part.ContentId == new ContentType(contentType).Parameters?["start"]
-                select part).SingleOrDefault() ?? parts.First();
+                var mainPart = (
+                    from part in parts
+                    where part.ContentId == new ContentType(contentType).Parameters?["start"]
+                    select part).SingleOrDefault() ?? parts.First();
 
-            var mainContent = ResolveRefs(mainPart.GetStringContentForEncoder(_innerEncoder), parts);
-            var mainContentStream = CreateStream(mainContent, mainPart.ContentType);
+                var mainContent = ResolveRefs(mainPart.GetStringContentForEncoder(_innerEncoder), parts);
+                var mainContentStream = CreateStream(mainContent, mainPart.ContentType);
 
-            return _innerEncoder.ReadMessage(mainContentStream, maxSizeOfHeaders, mainPart.ContentType.ToString());
+                return _innerEncoder.ReadMessage(mainContentStream, maxSizeOfHeaders, mainPart.ContentType.ToString());
+            }
         }
 
         public override ArraySegment<byte> WriteMessage(Message message, int maxMessageSize, BufferManager bufferManager, int messageOffset)
